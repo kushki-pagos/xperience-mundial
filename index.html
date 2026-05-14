@@ -1544,9 +1544,7 @@
       const partidoTitulo = selectedMatch.split(' — ')[0].trim();
       const payload = { partido: partidoTitulo, tyc, comercio, nombre, email, telefono, pais: paisFinal, asistencia: 'Sí' };
       try {
-        const formData = new URLSearchParams();
-        Object.entries(payload).forEach(([k,v]) => formData.append(k, v));
-        await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', body: formData });
+        await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) });
         form.reset();
         document.querySelectorAll('.form-select').forEach(s => s.classList.add('placeholder-active'));
         openPopup();
