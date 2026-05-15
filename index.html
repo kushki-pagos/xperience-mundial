@@ -19,6 +19,9 @@
       color: #ffffff;
       overflow-x: hidden;
     }
+    body.invitation-active {
+      overflow-x: auto;
+    }
 
     /* ─── FONDO ESPACIO — CANVAS ────────────────────────────── */
     #space-canvas {
@@ -72,7 +75,8 @@
       min-height: unset;
       height: 100vh;
       justify-content: center;
-      overflow: hidden;
+      overflow-x: visible;
+      overflow-y: hidden;
     }
 
     .invitation-wrapper {
@@ -878,6 +882,23 @@
     .btn-back-arrow:hover { opacity: 1; }
     .btn-back-arrow svg { width: 18px; height: 18px; }
 
+
+    /* Tablet: horizontal scroll on invitation */
+    @media (min-width: 769px) and (max-width: 1199px) {
+      html:has(body.invitation-active),
+      body.invitation-active {
+        overflow-x: auto !important;
+        min-width: 1200px;
+      }
+      #view-invitation {
+        min-width: 1200px;
+        overflow-x: visible;
+      }
+      .invitation-wrapper {
+        min-width: 1200px;
+      }
+    }
+
     /* ─── LANGUAGE SWITCHER ─────────────────────────────────────────── */
     .lang-switcher {
       position: fixed;
@@ -1419,10 +1440,7 @@
   document.getElementById('back-arrow-global').addEventListener('click', () => {
     const currentPhase = [1,2,3].find(n => document.getElementById('phase-'+n).classList.contains('active'));
     if (currentPhase === 1) {
-      // Back to invitation
-      document.getElementById('view-form').classList.remove('fade-in');
-      document.getElementById('view-form').style.display = 'none';
-      document.getElementById('view-invitation').style.display = '';
+      showInvitation();
     } else {
       goToPhase(currentPhase - 1);
     }
@@ -1438,6 +1456,7 @@
         viewInvitation.classList.remove('fade-out');
         viewForm.classList.remove('hidden');
         viewForm.classList.add('fade-in');
+        document.body.classList.remove('invitation-active');
         goToPhase(1);
         setLang(currentLang);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1450,9 +1469,12 @@
         viewForm.classList.remove('fade-out');
         viewInvitation.classList.remove('hidden');
         viewInvitation.classList.add('fade-in');
+        document.body.classList.add('invitation-active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 380);
     }
+
+    document.body.classList.add('invitation-active');
 
     const btnGoForm = document.getElementById('btn-go-form');
     if (btnGoForm) btnGoForm.addEventListener('click', showForm);
