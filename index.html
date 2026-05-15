@@ -1584,7 +1584,7 @@
       btnSubmit.textContent = (window._t||TRANSLATIONS.es).sending;
       const tyc = tcCheckbox.checked ? 'Sí' : 'No';
       const partidoTitulo = selectedMatch.split(' — ')[0].trim();
-      const payload = { partido: partidoTitulo, tyc, comercio, nombre, email, telefono, pais: paisFinal };
+      const payload = { partido: partidoTitulo, tyc, comercio, nombre, email, telefono, pais: paisFinal, lang: currentLang };
       try {
         const formData = new URLSearchParams();
         Object.entries(payload).forEach(([k,v]) => formData.append(k, v));
