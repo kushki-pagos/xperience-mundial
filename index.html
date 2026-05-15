@@ -1252,6 +1252,7 @@
             <button class="btn-submit" type="submit" id="btn-submit" style="flex:1;" data-i18n="btn_submit">Confirmar información</button>
           </div>
 
+          <input type="hidden" id="field-lang" name="lang" value="es">
         </form>
       </div>
 
@@ -1607,7 +1608,9 @@
       btnSubmit.textContent = (window._t||TRANSLATIONS.es).sending;
       const tyc = tcCheckbox.checked ? 'Sí' : 'No';
       const partidoTitulo = selectedMatch.split(' — ')[0].trim();
-      const payload = { partido: partidoTitulo, tyc, comercio, nombre, email, telefono, pais: paisFinal, lang: currentLang };
+      const langInput = document.getElementById('field-lang');
+      const lang = langInput ? langInput.value : 'es';
+      const payload = { partido: partidoTitulo, tyc, comercio, nombre, email, telefono, pais: paisFinal, lang };
       try {
         const formData = new URLSearchParams();
         Object.entries(payload).forEach(([k,v]) => formData.append(k, v));
@@ -1806,6 +1809,8 @@
 
   function setLang(lang) {
     currentLang = lang;
+    const fi = document.getElementById('field-lang');
+    if (fi) fi.value = lang;
     const t = TRANSLATIONS[lang];
 
     // Update lang label button
